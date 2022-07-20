@@ -1,42 +1,34 @@
 'use strict';
 
-// get the value of the search input
-
-// call the api with the proper parameters object
-
-// append the data link to the DOM
-
 // API KEY from Giphy
-const API_KEY = '47SoFht1UKvCbTBankcrDzcTocRDu5Xr';
+const API_KEY = 'DYto4Jr52DSI9wmrVk9DUrLW2RON8vhV';
+const GIPHY_API_URL = 'https://api.giphy.com/v1/gifs/search';
 
-/** Initialize the app */
-function initApp() {
-
-  /** add event listener submit button*/
-  $('form').on('submit', getGiphyData);
-
-  /** add event listener on delete button */
-  $('#delete').on('click', () => {
-    $('.giffs').html('');
-  })
-}
-
-/** Given a giphy data URL, appends the dom with the gif */
-function updateDOM(giphyData) {
-  const imageLink = giphyData.data[0].images.original.url;
-  $('.giffs').append(`<img src = ${imageLink}>`);
-}
-
-/** When invoked, calls the giphy API and returns the URL for the gif */
-async function getGiphyData(evt) {
+/** When invoked, calls getGiphyData, finds gif link, and updates the DOM*/
+async function createGiphy(evt) {
   evt.preventDefault();
+  const giphyData = await getGiphyData();
+  const gifLink = giphyData.data.data[1].images.original.url;
+  updateDOM(gifLink);
+}
+
+/** Given a giphy data URL, appends the DOM with the gif */
+function updateDOM(gifLink) {
+  $('.gifs').append(`<img src = ${gifLink}>`);
+}
+
+/** Calls the giphy API and returns the GET data */
+async function getGiphyData() {
+
   const searchTerm = $('input').val();
 
-  const parameters = { params: { api_key: API_KEY, q: searchTerm, limit: 1 } };
+  const parameters = { params: { api_key: API_KEY, q: searchTerm, limit: 2 } };
 
-  const response = await axios.get('https://api.giphy.com/v1/gifs/search', parameters);
+  const giphyData = await axios.get(GIPHY_API_URL, parameters);
 
-  updateDOM(response.data);
+  return giphyData;
 }
 
-initApp();
+$('#delete').on('click', () => $('.gifs').empty());
+
+$('form').on('submit', createGiphy);
