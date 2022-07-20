@@ -4,6 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Giphy Party!</title>
+  <style>
+    /* form {
+      display: inline;
+    } */
+
+    img {
+      width: 200px;
+      padding: 1rem;
+    }
+  </style>
 </head>
 
 
@@ -13,14 +23,11 @@
   <form id="form">
     <label for="search">Search</label>
     <input type="text" name="search" id="search">
-    <button id="" submit>Submit</button>
-    <button id="delete">Delete</button>
+    <button id="submit">Submit</button>
+    <button id="delete" type="button">Delete</button>
   </form>
 
   <div class="giffs"></div>
-
-
-
 
   <!-- Axios and jQuery -->
   <script src="https://unpkg.com/jquery"></script>
